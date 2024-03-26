@@ -12,16 +12,19 @@ source:
 build:
   noarch: python
   number: 1
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script:
+    - sed -i '/import pkg_resources/d' j2cli/__init__.py
+    - sed -i 's/__version__ = .*/__version__ = "{{ version }}"/' j2cli/__init__.py
+    - {{ PYTHON }} -m pip install . -vv
   entry_points:
     - j2 = j2cli:main
 
 requirements:
   host:
-    - python >=3.6,<3.11.0a0
+    - python >=3.6,<3.12.0a0
     - pip
   run:
-    - python >=3.6,<3.12.0.a0
+    - python >=3.6,<3.12.0a0
     - jinja2
     - yaml
 
