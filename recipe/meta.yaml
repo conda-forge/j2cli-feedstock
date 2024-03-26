@@ -11,17 +11,20 @@ source:
 
 build:
   noarch: python
-  number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 1
+  script:
+    - sed -i '/import pkg_resources/d' j2cli/__init__.py
+    - sed -i 's/__version__ = .*/__version__ = "{{ version }}"/' j2cli/__init__.py
+    - {{ PYTHON }} -m pip install . -vv
   entry_points:
     - j2 = j2cli:main
 
 requirements:
   host:
-    - python
+    - python >=3.6,<3.12.0a0
     - pip
   run:
-    - python
+    - python >=3.6,<3.12.0a0
     - jinja2
     - yaml
 
@@ -30,7 +33,7 @@ test:
     - j2 --help
 
 about:
-  home: https://github.com/simplejson/simplejson
+  home: https://github.com/kolypto/j2cli
   license: BSD-2-Clause
   license_family: BSD
   license_file: LICENSE
