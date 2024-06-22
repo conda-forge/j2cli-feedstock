@@ -21,10 +21,10 @@ build:
 
 requirements:
   host:
-    - python >=3.6,<3.12.0a0
+    - python >=3.6
     - pip
   run:
-    - python >=3.6,<3.12.0a0
+    - python >=3.6
     - jinja2
     - yaml
 
