@@ -6,12 +6,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 6f6f643b3fa5c0f72fbe9f07e246f8e138052b9f689e14c7c64d582c59709ae4
 
 build:
   noarch: python
-  number: 1
+  number: 2
   script:
     - sed -i '/import pkg_resources/d' j2cli/__init__.py
     - sed -i 's/__version__ = .*/__version__ = "{{ version }}"/' j2cli/__init__.py
@@ -21,14 +21,16 @@ build:
 
 requirements:
   host:
-    - python >=3.6,<3.12.0a0
+    - python {{ python_min }}
     - pip
   run:
-    - python >=3.6,<3.12.0a0
+    - python >={{ python_min }},<3.12.0a0
     - jinja2
     - yaml
 
 test:
+  requires:
+    - python {{ python_min }}
   commands:
     - j2 --help
 
